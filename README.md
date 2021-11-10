@@ -1,5 +1,8 @@
 <div align="center">
-  <img src="https://avatars.githubusercontent.com/u/83615350?s=400&u=77e101dec1d07878c6e6a551fb3e502063efc10a&v=4" style="height: 300px;"/>
   <h1> Sebastián Torrealba </h1>
-  <img src="https://metrics.lecoq.io/storrealbac?template=classic&base.header=0&base.metadata=0&habits=1&topics=1&followup=1&habits.from=200&habits.days=14&habits.facts=true&habits.charts=false&habits.trim=false&topics.mode=starred&topics.sort=stars&topics.limit=15&followup.sections=repositories&config.timezone=America%2FSantiago"/>
+  <p> 
+    Programador y estudiante de la Universidad Técnica Federico Santa Maria <br/>
+    Interesado en programación competitiva y desarrollo web
+  </p>
+  <img src="https://metrics.lecoq.io/storrealbac?template=classic&base.header=0&base.repositories=0&base.metadata=0&languages=1&introduction=1&languages.limit=8&languages.sections=most-used&languages.colors=github&languages.threshold=0%25&languages.indepth=false&languages.analysis.timeout=15&languages.categories=markup%2C%20programming&languages.recent.categories=markup%2C%20programming&languages.recent.load=300&languages.recent.days=14&introduction.title=true&config.timezone=America%2FSantiago"/>
 </div>
