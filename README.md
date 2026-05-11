@@ -1,8 +1,19 @@
-<div align="center">
-  <h1> Sebastián Torrealba </h1>
-  <p> 
-    Programador y estudiante de la Universidad Técnica Federico Santa Maria <br/>
-    Interesado en programación competitiva y desarrollo de software
-  </p>
-  <img src="https://metrics.lecoq.io/storrealbac?template=classic&base.header=0&base.repositories=0&base.metadata=0&languages=1&introduction=1&languages.limit=8&languages.sections=most-used&languages.colors=github&languages.threshold=0%25&languages.indepth=false&languages.analysis.timeout=15&languages.categories=markup%2C%20programming&languages.recent.categories=markup%2C%20programming&languages.recent.load=300&languages.recent.days=14&introduction.title=true&config.timezone=America%2FSantiago"/>
-</div>
+# `hi!`
+
+```text
+~ not a chinese panda. a chilean maybe.
+
+  who      cs student · ta of algorithms @ utfsm
+  where    valparaíso, chile
+  stack    C++ · C · Go · TypeScript · Java · Typst
+  os       linux
+  about    building software, competitive programming,
+           and a few other things in between
+```
+
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=storrealbac&theme=tokyo-night&hide_border=true&area=true&hide_title=true" />
+
+### links
+
+[![Codeforces](https://img.shields.io/badge/Codeforces-storrealbac-1F8ACB?style=flat-square&logo=codeforces&logoColor=white)](https://codeforces.com/profile/storrealbac)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Sebastián_Torrealba-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/storrealbac/)
