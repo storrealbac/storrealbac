@@ -1,17 +1,14 @@
-# `hi!`
-
+### about me
 ```text
 ~ not a chinese panda. a chilean maybe.
 
-  who      cs student · ta of algorithms @ utfsm
-  where    valparaíso, chile
-  stack    C++ · C · Go · TypeScript · Java · Typst
-  os       linux
+  who      computer engineer @ utfsm
+  where    algarrobo, chile
+  stack    C++ · TypeScript · Python
+  os       macOS & linux
   about    building software, competitive programming,
            and a few other things in between
 ```
-
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=storrealbac&theme=tokyo-night&hide_border=true&area=true&hide_title=true" />
 
 ### links
 
