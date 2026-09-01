@@ -6,8 +6,7 @@
   where    algarrobo, chile
   stack    C++ · TypeScript · Python
   os       macOS & linux
-  about    building software, competitive programming,
-           and a few other things in between
+  about    building software, competitive programming, and a few other things in between
 ```
 
 ### links
