@@ -1,0 +1,28 @@
+---
+// Tres capas sobre el color: nombre (detrás), foto recortada, apellido (delante).
+// El orden lo dan los z-index en global.css, no el orden de este archivo.
+---
+
+<header class="hero" id="top">
+  <h1 class="sr-only">Sebastián Torrealba</h1>
+  <div class="hero-bg" aria-hidden="true"></div>
+
+  <div class="hero-line hero-first" aria-hidden="true">
+    <span class="fit" data-ratio="--r-first">sebastián</span>
+  </div>
+
+  <div class="hero-photo">
+    <img
+      src="/img/sebastian.webp"
+      alt="Portrait of Sebastián, smiling, in a dark t-shirt"
+      width="872"
+      height="1066"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+
+  <div class="hero-line hero-last" aria-hidden="true">
+    <span class="fit" data-ratio="--r-last">torrealba</span>
+  </div>
+</header>

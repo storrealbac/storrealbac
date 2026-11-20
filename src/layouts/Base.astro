@@ -1,0 +1,60 @@
+---
+import '@fontsource-variable/montserrat/wght.css';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = 'Sebastián Torrealba',
+  description = 'Sebastián Torrealba — computer engineer @ utfsm. Algarrobo, Chile.',
+} = Astro.props;
+
+// La letra a mano. Light es la del nombre gigante: se bloquea hasta que carga
+// para que la intro nunca se vea con otra letra.
+const weights = [
+  { file: 'Light', weight: 300, style: 'normal', display: 'block' },
+  { file: 'Regular', weight: 400, style: 'normal', display: 'swap' },
+  { file: 'Italic', weight: 400, style: 'italic', display: 'swap' },
+  { file: 'Semibold', weight: 600, style: 'normal', display: 'swap' },
+  { file: 'Bold', weight: 700, style: 'normal', display: 'swap' },
+  { file: 'BoldItalic', weight: 700, style: 'italic', display: 'swap' },
+];
+const faces = weights
+  .map(
+    (w) =>
+      `@font-face{font-family:'Torrealba Sans';src:url('/fonts/TorrealbaSansIntl-${w.file}.ttf') format('truetype');font-weight:${w.weight};font-style:${w.style};font-display:${w.display}}`,
+  )
+  .join('');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#7087a3" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/TorrealbaSansIntl-Light.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/TorrealbaSansIntl-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/img/sebastian.webp" as="image" type="image/webp" />
+    <style set:html={faces}></style>
+    <script is:inline>
+      // Antes de pintar: marca que hay JS (activa la intro).
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        // Red de seguridad: si el script principal no llega a correr, la intro parte igual.
+        setTimeout(function () {
+          d.classList.add('go');
+        }, 3500);
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

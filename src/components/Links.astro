@@ -1,0 +1,42 @@
+---
+import Arrow from './Arrow.astro';
+import Codeforces from '../icons/codeforces.svg';
+import GitHub from '../icons/github.svg';
+import LinkedIn from '../icons/linkedin.svg';
+
+// Una fila por red: ícono (SVG en src/icons), nombre, para qué sirve, flecha.
+const links = [
+  { name: 'GitHub', what: 'code', href: 'https://github.com/storrealbac', icon: GitHub },
+  {
+    name: 'Codeforces',
+    what: 'competitive programming',
+    href: 'https://codeforces.com/profile/storrealbac',
+    icon: Codeforces,
+  },
+  { name: 'LinkedIn', what: 'work', href: 'https://www.linkedin.com/in/storrealbac/', icon: LinkedIn },
+];
+---
+
+<section class="work" id="links">
+  <h2 class="work-title reveal"><span>find me elsewhere</span></h2>
+
+  <ul class="links">
+    {
+      links.map((link, i) => {
+        const Icon = link.icon;
+        return (
+          <li class="reveal" style={`transition-delay:${i * 90}ms`}>
+            <a class="link-row" href={link.href} target="_blank" rel="noopener" data-cursor="inverse">
+              <Icon class="link-icon" aria-hidden="true" />
+              <span class="link-name">{link.name}</span>
+              <span class="link-what">{link.what}</span>
+              <span class="link-arrow">
+                <Arrow size={28} />
+              </span>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</section>

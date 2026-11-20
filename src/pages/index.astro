@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Links from '../components/Links.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base>
+  <Nav />
+  <Hero />
+  <main>
+    <About />
+    <Links />
+  </main>
+  <Footer />
+
+  <!-- cursor propio: el aro sigue al punto (ver motion.ts) -->
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor-ring"></div>
+    <div class="cursor-dot"></div>
+  </div>
+</Base>
+
+<script>
+  import '../scripts/motion.ts';
+</script>

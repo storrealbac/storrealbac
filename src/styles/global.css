@@ -1,0 +1,579 @@
+/* ============================================================
+   tokens
+   ============================================================ */
+:root {
+  /* neutros: casi todo el sitio vive aquí */
+  --paper: #f3f0ea;
+  --card: #fbfaf7;
+  --ink: #1b1b1f;
+  --muted: #8a857c;
+  --fine: #6f6a62; /* texto chico: más oscuro que --muted para que se lea */
+  --rule: #d9d2c5;
+
+  /* el único color del sitio: un azul grisáceo, apagado */
+  --tone: #7087a3;
+  --on-tone: #fff;
+
+  /* dos letras: la hecha a mano para lo grande, Montserrat para lecturas largas */
+  --font-hand: 'Torrealba Sans', 'Montserrat Variable', system-ui, sans-serif;
+  --font-text: 'Montserrat Variable', system-ui, sans-serif;
+
+  --ease: cubic-bezier(0.7, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  color-scheme: light;
+}
+
+/* ============================================================
+   base
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--card);
+  color: var(--ink);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--tone);
+  color: var(--on-tone);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.wrap {
+  width: min(100% - 48px, 1024px);
+  margin-inline: auto;
+}
+
+/* ============================================================
+   nav: dos links y la firma, sobre la portada. No es fijo: se va con el scroll.
+   ============================================================ */
+.nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(16px, 2.2vw, 30px) clamp(20px, 3vw, 44px);
+}
+.nav-mark {
+  font-family: var(--font-hand);
+  font-size: 23px;
+  line-height: 1;
+}
+.nav-links {
+  display: flex;
+  gap: clamp(20px, 2.6vw, 36px);
+  font-size: 14px;
+  font-weight: 500;
+}
+.nav-links a {
+  padding: 6px 0;
+  text-decoration: none;
+  /* subrayado que crece desde la izquierda */
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat;
+  transition: background-size 0.4s var(--ease);
+}
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  background-size: 100% 1.5px;
+}
+
+/* ============================================================
+   hero: nombre / foto / apellido en capas
+   capas: fondo (0) < nombre (1) < foto (2) < apellido (3)
+   ============================================================ */
+.hero {
+  /* ancho de cada palabra en em; el script lo vuelve a medir con la letra real */
+  --r-first: 3.93;
+  --r-last: 3.874;
+  /* cuánto del ancho del hero ocupa cada palabra (en %; 1cqw = 1% del ancho del hero) */
+  --fit-first: 55.5;
+  --fit-last: 102;
+  --fs-first: calc(var(--fit-first) * 1cqw / var(--r-first));
+  --fs-last: calc(var(--fit-last) * 1cqw / var(--r-last));
+  --photo-h: min(92svh, 54cqw);
+
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  height: 100svh;
+  min-height: 30rem;
+  overflow: hidden;
+  overflow: clip;
+  background: var(--paper);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--tone);
+  /* luz suave arriba a la izquierda y un poco más de peso abajo, como un fondo de estudio */
+  background-image:
+    radial-gradient(95% 85% at 26% 16%, rgb(255 255 255 / 0.18), transparent 62%),
+    linear-gradient(to bottom, transparent 50%, rgb(0 0 0 / 0.1));
+}
+
+.hero-line {
+  position: absolute;
+  margin: 0;
+  font-family: var(--font-hand);
+  font-weight: 300;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--on-tone);
+  pointer-events: none;
+}
+/* el espaciado va aquí (no en el padre) para que escale con el tamaño al medir */
+.hero-line .fit {
+  display: inline-block;
+  letter-spacing: -0.02em;
+}
+
+/* apellido: de borde a borde, apoyado en el borde inferior, por delante de la foto */
+.hero-last {
+  z-index: 3;
+  left: 50%;
+  bottom: calc(var(--fs-last) * -0.15);
+  font-size: var(--fs-last);
+  transform: translate3d(-50%, 0, 0);
+}
+
+/* nombre: encajado en el hueco entre la "t" y la "l" del apellido, por detrás de la foto */
+.hero-first {
+  z-index: 1;
+  left: 12.8cqw;
+  bottom: calc(var(--fs-last) * 0.57 - var(--fs-first) * 0.16);
+  font-size: var(--fs-first);
+  overflow: hidden;
+}
+
+.hero-photo {
+  position: absolute;
+  z-index: 2;
+  left: 61cqw;
+  bottom: 0;
+  height: var(--photo-h);
+  aspect-ratio: 872 / 1066;
+  /* al hacer scroll la foto baja un poco más lento que las letras: se hunde entre ellas */
+  transform: translate3d(0, calc(var(--sy, 0) * 0.16px), 0);
+}
+.hero-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: grayscale(1) contrast(1.08);
+  transition: filter 0.6s var(--ease);
+}
+.hero-photo:hover img {
+  filter: grayscale(0) contrast(1);
+}
+
+/* pantallas verticales: nombre arriba (el pelo tapa apenas la base), foto al centro */
+@media (max-aspect-ratio: 4/5), (max-width: 720px) {
+  .hero {
+    --fit-first: 96;
+    --photo-h: min(64svh, 140cqw);
+  }
+  .hero-first {
+    left: 50%;
+    bottom: calc(var(--photo-h) * 0.975 - var(--fs-first) * 0.16);
+    transform: translate3d(-50%, 0, 0);
+  }
+  .hero-photo {
+    left: 50%;
+    transform: translate3d(-50%, calc(var(--sy, 0) * 0.16px), 0);
+  }
+}
+
+/* ============================================================
+   intro: el nombre sube en tinta sobre papel, luego entra el color
+   y la foto sube entre las dos palabras. Solo con JS (html.js).
+   ============================================================ */
+@keyframes rise {
+  from {
+    transform: translateY(108%);
+  }
+}
+@keyframes wipe {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes ink-first {
+  from {
+    color: var(--ink);
+  }
+}
+@keyframes nav-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+html.js .hero-first .fit {
+  animation: rise 1.1s var(--ease-out) 0.15s backwards paused;
+}
+html.js .hero-last .fit {
+  animation: rise 1.1s var(--ease-out) 0.3s backwards paused;
+}
+html.js .hero-line {
+  animation: ink-first 0.7s ease 1.2s backwards paused;
+}
+html.js .hero-bg {
+  animation: wipe 1s var(--ease) 1s backwards paused;
+}
+html.js .hero-photo img {
+  animation: rise 1.2s var(--ease-out) 1.2s backwards paused;
+}
+html.js .nav {
+  animation: nav-in 0.7s var(--ease-out) 2.1s backwards paused;
+}
+html.go .hero-line,
+html.go .hero-line .fit,
+html.go .hero-bg,
+html.go .hero-photo img,
+html.go .nav {
+  animation-play-state: running;
+}
+
+/* ============================================================
+   about
+   ============================================================ */
+.about {
+  padding: clamp(6rem, 13vw, 11rem) 0;
+  background: var(--paper);
+}
+.about p {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.15vw, 1.8rem);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+.about .aside {
+  color: var(--muted);
+}
+
+/* destacador: las frases marcadas van en la letra a mano, con un tinte suave */
+.hl {
+  --hl: color-mix(in srgb, var(--tone) 24%, transparent);
+  margin: 0 -0.1em;
+  padding: 0 0.1em;
+  font-family: var(--font-hand);
+  font-size: 1.14em;
+  line-height: 1;
+  letter-spacing: 0;
+  color: inherit;
+  background: linear-gradient(transparent 56%, var(--hl) 56%, var(--hl) 93%, transparent 93%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* ============================================================
+   links: título gigante + una fila por red
+   ============================================================ */
+.work {
+  padding: clamp(4.5rem, 9vw, 8rem) 0 clamp(4rem, 8vw, 7rem);
+  overflow: clip;
+}
+
+/* título de borde a borde, en el color del sitio; se desliza un poco con el scroll */
+.work-title {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-weight: 300;
+  font-size: 12.2vw;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: var(--tone);
+}
+.work-title span {
+  display: inline-block;
+  transform: translate3d(calc(9vw - var(--p, 0.5) * 8vw), 0, 0);
+  will-change: transform;
+}
+
+.links {
+  margin: clamp(1.5rem, 3.5vw, 3rem) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+  list-style: none;
+}
+.links li {
+  border-bottom: 1px solid var(--rule);
+}
+
+/* la fila ocupa todo el ancho; el contenido se alinea con el resto de la página */
+.link-row {
+  --gutter: max(24px, calc((100vw - 1024px) / 2));
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  column-gap: clamp(0.9rem, 2.2vw, 1.75rem);
+  padding: clamp(1.15rem, 2.5vw, 2rem) var(--gutter);
+  text-decoration: none;
+  transition: color 0.4s var(--ease);
+}
+/* al pasar el mouse la fila se llena de tinta desde abajo */
+.link-row::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ink);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.45s var(--ease);
+}
+.link-icon {
+  width: clamp(26px, 3vw, 40px);
+  height: clamp(26px, 3vw, 40px);
+}
+.link-name {
+  font-family: var(--font-hand);
+  font-weight: 300;
+  font-size: clamp(2.1rem, 5.6vw, 4.4rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  transition: transform 0.5s var(--ease-out);
+}
+.link-what {
+  color: var(--fine);
+  font-size: 14px;
+  transition: color 0.4s var(--ease);
+}
+.link-arrow {
+  display: grid;
+  transition: transform 0.5s var(--ease-out);
+}
+.link-arrow svg {
+  width: clamp(22px, 2.4vw, 32px);
+  height: clamp(22px, 2.4vw, 32px);
+}
+
+@media (hover: hover) {
+  .link-row:hover {
+    color: var(--paper);
+  }
+  .link-row:hover::before {
+    transform: scaleY(1);
+  }
+  .link-row:hover .link-name {
+    transform: translateX(0.18em);
+  }
+  .link-row:hover .link-what {
+    color: rgb(243 240 234 / 0.72);
+  }
+  .link-row:hover .link-arrow {
+    transform: translate(5px, -5px);
+  }
+}
+.link-row:focus-visible {
+  outline-offset: -4px;
+}
+
+@media (max-width: 640px) {
+  .work-title {
+    font-size: 15vw;
+    white-space: normal;
+    line-height: 0.95;
+    padding-inline: 24px;
+  }
+  .work-title span {
+    transform: none;
+  }
+  .link-row {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      'icon name arrow'
+      'icon what arrow';
+    row-gap: 0.15rem;
+  }
+  .link-icon {
+    grid-area: icon;
+  }
+  .link-name {
+    grid-area: name;
+  }
+  .link-what {
+    grid-area: what;
+    font-size: 13px;
+  }
+  .link-arrow {
+    grid-area: arrow;
+  }
+}
+
+/* ============================================================
+   pie: una línea, solo lo necesario
+   ============================================================ */
+.foot {
+  padding: 0 0 clamp(1.5rem, 3vw, 2.25rem);
+  color: var(--fine);
+  font-size: 13px;
+}
+.foot .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 2rem;
+}
+
+/* ============================================================
+   cursor propio: un punto exacto y un aro fino que lo sigue.
+   Solo con mouse; reemplaza al cursor del sistema (html.has-cursor).
+   ============================================================ */
+.cursor {
+  --c: var(--ink);
+  --halo: rgb(243 240 234 / 0.55);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+html.has-cursor .cursor {
+  opacity: 1;
+}
+html.has-cursor .cursor.is-away {
+  opacity: 0;
+}
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+/* sobre una fila llena de tinta, el cursor pasa a color papel */
+.cursor.is-inverse {
+  --c: var(--paper);
+  --halo: rgb(27 27 31 / 0.25);
+}
+.cursor-dot,
+.cursor-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  will-change: translate;
+}
+.cursor-dot {
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: var(--c);
+  box-shadow: 0 0 0 1.5px var(--halo);
+  transition:
+    background-color 0.3s,
+    scale 0.3s var(--ease-out);
+}
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1.5px solid var(--c);
+  transition:
+    scale 0.4s var(--ease-out),
+    border-color 0.3s,
+    background-color 0.3s;
+}
+/* sobre un link: el aro crece y se tiñe apenas */
+.cursor.is-link .cursor-ring {
+  scale: 1.7;
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+}
+.cursor.is-link .cursor-dot {
+  scale: 0.7;
+}
+.cursor.is-down .cursor-ring {
+  scale: 0.75;
+}
+.cursor.is-link.is-down .cursor-ring {
+  scale: 1.4;
+}
+
+/* ============================================================
+   aparición al hacer scroll
+   ============================================================ */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 1s var(--ease-out),
+    transform 1s var(--ease-out);
+}
+html.js .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================================
+   menos movimiento si el sistema lo pide
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  html.js *,
+  html.js *::before,
+  html.js *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  html.js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .hero-photo {
+    --sy: 0;
+  }
+  .work-title span {
+    --p: 0.5;
+  }
+}
